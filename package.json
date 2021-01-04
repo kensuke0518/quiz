@@ -1,0 +1,28 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browser-sync start --server 'docs' --files='**/*.html,**/*.css,**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://kensuke0518@github.com/kensuke0518/quiz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kensuke0518/quiz/issues"
+  },
+  "homepage": "https://github.com/kensuke0518/quiz#readme",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "browser-sync": "^2.26.13",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1"
+  }
+}
