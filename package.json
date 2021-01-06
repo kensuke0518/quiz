@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "browser-sync start --server 'docs' --files='**/*.html,**/*.css,**/*.js'"
+    "start": "browser-sync start --proxy localhost:8080 --files=\"docs/**/*.js,docs/**/*.php,docs/**/*.css\""
   },
   "repository": {
     "type": "git",
