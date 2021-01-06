@@ -144,7 +144,7 @@ fetch('./js/question.json')
             const postData = new FormData;
             postData.set('previousPoints', points);
 
-            fetch('./test.php', {
+            /*fetch('./test.php', {
                 method: 'POST',
                 body: postData
             })
@@ -153,6 +153,6 @@ fetch('./js/question.json')
                     console.log();
                     //location.href = 'test.php'
                 })
-                .catch(console.error);
+                .catch(console.error);*/
         }
     });
