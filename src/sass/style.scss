@@ -1,0 +1,33 @@
+@import './_variable.scss';
+@import './_reset.scss';
+@import './_base.scss';
+#root{
+    background:rgb(247, 195, 195);
+    padding: 20px;
+}
+#greet{
+    color: #333;
+}
+button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px soild #333;
+    border-radius: 5px;
+    background: lightgreen;
+    padding: 5px;
+    margin-right: 10px;
+    @include fz(20);
+}
+.history{
+    &__list-item{
+        margin: 10px 0 0;
+        padding: 10px;
+        background: #ddd;
+    }
+    &__question{
+        margin-bottom: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #333;
+    }
+}

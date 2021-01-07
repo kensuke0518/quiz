@@ -162,6 +162,7 @@ fetch('./js/question.json')
         function history() {
             const points = document.getElementById('points');
             const ul = document.createElement('ul');
+            ul.classList.add('history__list')
             for (let i = 0; i < 10; i++){
                 const endQuestion = endArr[i].message;
                 const me = Number(myAnswer[i]);
@@ -178,9 +179,13 @@ fetch('./js/question.json')
                 const meAnswer = endArr[i].choise[me];
 
                 const li = document.createElement('li'); //liはブロックスコープによりfor文の外側から参照できない。
+                li.classList.add('history__list-item');
                 const pQuestion = document.createElement('p');
+                pQuestion.classList.add('history__question');
                 const pCorrect = document.createElement('p');
+                pCorrect.classList.add('history__correct');
                 const pAnswer = document.createElement('p');
+                pAnswer.classList.add('history__answer');
                 const spanText = document.createElement('span');
 
                 pQuestion.innerHTML = endQuestion;

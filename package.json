@@ -4,9 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "compile:sass": "node-sass src/sass -o docs/css --output-style compressed --source-map true",
+    "lint:sass": "stylelint \"src/**/*.scss\"",
+    "format:sass": "stylelint --fix \"src/**/*.scss\"",
+    "mq": "postcss src/sass/style.scss -u css-mqpacker -o docs/css/style.css",
+    "autoprefix": "postcss src/sass/style.scss -u autoprefixer -o docs/css/style.css",
+    "allrun": "run-s format:sass compile:sass mq autoprefix",
+    "watch:sass": "chokidar \"src/**/*.scss\" --command \"npm run allrun\"",
     "start": "browser-sync start --proxy localhost:8080 --files=\"docs/**/*.js,docs/**/*.php,docs/**/*.css\""
   },
-  "repository": {
+  "browserslist": [
+    "last 2 versions",
+    "ie 9"
+  ],
+    "repository": {
     "type": "git",
     "url": "git+https://kensuke0518@github.com/kensuke0518/quiz.git"
   },
@@ -20,8 +31,18 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
+    "autoprefixer": "^10.2.0",
     "babel-loader": "^8.2.2",
     "browser-sync": "^2.26.13",
+    "chokidar-cli": "^2.1.0",
+    "css-mqpacker": "^7.0.0",
+    "node-sass": "^5.0.0",
+    "postcss-cli": "^8.3.1",
+    "stylelint": "^13.8.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-order": "^4.1.0",
+    "stylelint-scss": "^3.18.0",
     "webpack": "^5.11.1",
     "webpack-cli": "^4.3.1"
   }
