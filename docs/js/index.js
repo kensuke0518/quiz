@@ -140,6 +140,8 @@ fetch('./js/question.json')
             //ローカルストレージに点数データを保存する
             localStorage.setItem('previousPoints', points);
 
+            history();
+
             //PHPにデータを送る準備
             const postData = new FormData;
             postData.set('previousPoints', points);
@@ -154,5 +156,46 @@ fetch('./js/question.json')
                     //location.href = 'test.php'
                 })
                 .catch(console.error);*/
+        }
+
+        //問題履歴を表示
+        function history() {
+            const points = document.getElementById('points');
+            const ul = document.createElement('ul');
+            for (let i = 0; i < 10; i++){
+                const endQuestion = endArr[i].message;
+                const me = Number(myAnswer[i]);
+                const you = Number(endArr[i].answer);
+                let text, style;
+                if (me === you) {
+                    text = '○';
+                    style = 'green';
+                } else {
+                    text = '×';
+                    style = 'red';
+                }
+                const correctAnswer = endArr[i].choise[you];
+                const meAnswer = endArr[i].choise[me];
+
+                const li = document.createElement('li'); //liはブロックスコープによりfor文の外側から参照できない。
+                const pQuestion = document.createElement('p');
+                const pCorrect = document.createElement('p');
+                const pAnswer = document.createElement('p');
+                const spanText = document.createElement('span');
+
+                pQuestion.innerHTML = endQuestion;
+                pCorrect.innerHTML = 'A: ' + correctAnswer;
+                spanText.style.color = style;
+                spanText.innerHTML = text;
+                pAnswer.appendChild(spanText);
+                const meText = document.createTextNode('あなたの解答は「' + meAnswer + '」でした');
+                pAnswer.appendChild(meText);
+
+                li.appendChild(pQuestion);
+                li.appendChild(pCorrect);
+                li.appendChild(pAnswer);
+                ul.appendChild(li);
+            }
+            points.appendChild(ul);
         }
     });
