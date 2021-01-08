@@ -11,7 +11,7 @@
     "autoprefix": "postcss src/sass/style.scss -u autoprefixer -o docs/css/style.css",
     "allrun": "run-s format:sass compile:sass mq autoprefix",
     "watch:sass": "chokidar \"src/**/*.scss\" --command \"npm run allrun\"",
-    "start": "browser-sync start --proxy localhost:8080 --files=\"docs/**/*.js,docs/**/*.php,docs/**/*.css\""
+    "start": "browser-sync start -s docs -w docs/*/*.html docs/*/*.css docs/*/*.js"
   },
   "browserslist": [
     "last 2 versions",
