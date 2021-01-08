@@ -1,4 +1,4 @@
-fetch('./js/question.json')
+fetch('js/questions.json')
     .then(res => res.json())
     .then(data => {
         const question = data;
@@ -82,7 +82,7 @@ fetch('./js/question.json')
             //question配列から取得した要素を削除
             question.splice(randomLenNum, 1);
 
-            const text = document.createTextNode(data.message);
+            const text = document.createTextNode('第' + endArr.length + '問：' +data.message);
             p.appendChild(text);
             div.appendChild(p);
             div.appendChild(chos);
@@ -188,7 +188,7 @@ fetch('./js/question.json')
                 pAnswer.classList.add('history__answer');
                 const spanText = document.createElement('span');
 
-                pQuestion.innerHTML = endQuestion;
+                pQuestion.innerHTML = '第'+(i+1)+'問：'+endQuestion;
                 pCorrect.innerHTML = 'A: ' + correctAnswer;
                 spanText.style.color = style;
                 spanText.innerHTML = text;

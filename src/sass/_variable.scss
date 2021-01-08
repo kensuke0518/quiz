@@ -13,12 +13,6 @@ $breakpoints: (
   }
 }
 
-//フォントサイズ
-//20px以上のフォントの指定には下記を用いる。20px以下であればピクセル固定値で指定。
-//上記の理由は、スマホ時にメディアクエリでhtml要素フォントサイズを変更しているから。
-@mixin fz($size: 16) {
-  font-size: ($size / 10) + rem;
-}
 
 //スマホ時の改行調整
 @media screen and (min-width: 600px){

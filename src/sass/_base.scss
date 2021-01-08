@@ -19,13 +19,15 @@ a:hover{
 html{
     box-sizing: border-box;
     font-size: 62.5%;
+    height: 100%;
     @include mq(){
         font-size: 50%;
     }
 }
 body{
     color: #333;
-    @include fz();
+    font-size: 1.6rem;
+    height: 100%;
     @include mq(){
         font-size: 16px;
     }

@@ -4,9 +4,17 @@
 #root{
     background:rgb(247, 195, 195);
     padding: 20px;
+    width: 1000px;
+    margin: 0 auto;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
 }
 #greet{
     color: #333;
+}
+#points{
+    width: 100%;
 }
 button{
     -webkit-appearance: none;
@@ -17,7 +25,7 @@ button{
     background: lightgreen;
     padding: 5px;
     margin-right: 10px;
-    @include fz(20);
+    font-size: 2rem;
 }
 .history{
     &__list-item{
