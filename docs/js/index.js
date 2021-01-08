@@ -1,116 +1,127 @@
 fetch('js/questions.json')
     .then(res => res.json())
     .then(data => {
+        //問題に関するデータをjsonから取得
         const question = data;
+        
+        //解答者の解答を入れる配列インスタンスを作成
+        let yourAnswer = new Array();
 
-        let myAnswer = new Array();
+        //完了した問題を入れる配列インスタンスを作成
+        let endAnswer = new Array();
 
-        //ランダムに取得した要素を別の配列に並べるために、新しい配列を用意する（グローバルじゃなくてクロージャ？）
-        let endArr = new Array();
-
-        //初期表示に対して行う対応
-        function init0(){
+        //ページの初期表示に対して行う対応
+        function greeting() {
+            //冒頭の文章を作成。
             const greet = document.getElementById('greet');
+            //ローカルストレージから前回の解答状況を取得
             let greetText;
             if (localStorage.getItem('previousPoints')) {
+                //前回の点数を表示する
                 greetText = 'あなたの前回の点数は' + localStorage.getItem('previousPoints') + '点でした。下のボタンを押して再チャレンジ！';
             } else {
+                //前回解答がなければ初期挨拶を表示
                 greetText = 'ようこそクイズルームへ！下のボタンを押してクイズにチャレンジしてみてください！';
             }
-            const greetText2 = document.createTextNode(greetText);
-            greet.appendChild(greetText2);
+            const greetTextOuter = document.createTextNode(greetText);
+            greet.appendChild(greetTextOuter);
         }
-        init0();
+        greeting();
 
-        //画面の初期化：スタートボタンを削除する
-        const copy = document.getElementById('push');
+        //問題スタートボタンを取得する
+        const startBtn = document.getElementById('push');
+        //画面の初期化：スタートボタンを押して、スタートボタンや表示テキストを削除する
         function init() {
-            copy.addEventListener('click', () => {
+            //スタートボタンを押して処理開始
+            startBtn.addEventListener('click', () => {
+                //#root内の要素を全て削除する
                 const root = document.getElementById('root')
-                while (root) {
+                while (root.children[0]) {
                     root.removeChild(root.children[0]);
-                    if (!root.children[0]) {
-                        break;
-                    }
                 }
-                myAnswer = new Array();
-                question.push(...endArr);
-                endArr = new Array();
-                foo();
+                //解答者の解答を初期化する。ランダムな問題と答えはデータをjsonデータに返してから初期化する。
+                yourAnswer = new Array();
+                question.push(...endAnswer);
+                endAnswer = new Array();
+                //問題文を表示する処理を行う。
+                dispQuestion();
             });
         }
         init();
 
-
-        function foo() {
+        //問題文を表示する
+        function dispQuestion() {
             const root = document.getElementById('root');
             const div = document.createElement('div');
             div.setAttribute('id', 'question');
             const p = document.createElement('p');
 
-            //画面表示の初期化：表示されている問題を削除する
+            //画面表示の初期化：表示されている問題があれば削除する
             if (root.querySelector('#question') != null) {
                 root.removeChild(root.querySelector('#question'));
             }
 
-            //question配列のlengthからランダムに数値を取得
+            //問題文の配列からランダムに要素を取得
             const randomLenNum = Math.floor(Math.random() * question.length);
-
-            //question配列からランダムに要素を取得
             const data = question[randomLenNum];
 
-            //選択肢を生成
-            const chos = document.createElement('div');
-            for (let i = 0; i < 3; i++) {
-                const button = document.createElement('button');
-                const cho = document.createTextNode(data.choise[i]);
-                button.setAttribute('data-value', i);
-                button.classList.add('qButton');
-                button.appendChild(cho);
-                chos.appendChild(button);
-            }
-
-            //別の配列が10件以上入っていないか確認
-            if (endArr.length < 10) {
-                //取得した要素を別の配列に並べる
-                endArr.push(data);
+            //完了した問題配列が10件以上入っていないか確認
+            if (endAnswer.length < 10) {
+                //表示した問題を、完了した問題配列にpushする
+                endAnswer.push(data);
             } else {
-                bar();
+                //問題終了後の処理
+                result();
                 return;
             }
 
-            //question配列から取得した要素を削除
-            question.splice(randomLenNum, 1);
+            //問題の選択肢を生成
+            const choiseBtns = document.createElement('div');
+            for (let i = 0; i < 3; i++) {
+                const button = document.createElement('button');
+                const choise = document.createTextNode(data.choise[i]);
+                button.setAttribute('data-value', i);
+                button.classList.add('qButton');
+                button.appendChild(choise);
+                choiseBtns.appendChild(button);
+            }
 
-            const text = document.createTextNode('第' + endArr.length + '問：' +data.message);
+            //出題された問題を配列から削除
+            question.splice(randomLenNum, 1);
+            //問題を表示
+            const text = document.createTextNode('第' + endAnswer.length + '問：' +data.message);
             p.appendChild(text);
             div.appendChild(p);
-            div.appendChild(chos);
+            div.appendChild(choiseBtns);
             root.appendChild(div);
 
+            //解答ボタンを押した際の処理
             decision();
-
         }
 
-        const decision = () => {
+        //解答ボタンを押した際の処理
+        function decision(){
             const qButton = document.getElementById('root').querySelectorAll('.qButton');
             const q = document.getElementById('root').querySelector('#question');
             for (let i = 0; i < qButton.length; i++) {
                 qButton[i].addEventListener('click', (e) => {
                     const attr = e.target.getAttribute('data-value');
-                    myAnswer.push(attr);
+                    yourAnswer.push(attr);
                     q.parentNode.removeChild(q);
-                    foo();
+
+                    //次の問題を表示
+                    dispQuestion();
                 })
             }
         };
 
-        // 回答と正答を比較する
-        function bar() {
+        //問題終了後の処理
+        function result() {
+            //解答と正答を比較して得点をつける
             let points = 0;
             for (let i = 0; i < 10; i++) {
-                const me = Number(myAnswer[i]);
-                const you = Number(endArr[i].answer);
+                const me = Number(yourAnswer[i]);
+                const you = Number(endAnswer[i].answer);
                 if (me === you) {
                     points = points + 10;
                 } else {
@@ -134,28 +145,12 @@ fetch('js/questions.json')
             }
             p.innerHTML = innerText;
             div.appendChild(p);
-            div.appendChild(copy);
+            div.appendChild(startBtn);
             root.appendChild(div);
-
             //ローカルストレージに点数データを保存する
             localStorage.setItem('previousPoints', points);
-
+            //問題履歴を表示
             history();
-
-            //PHPにデータを送る準備
-            const postData = new FormData;
-            postData.set('previousPoints', points);
-
-            /*fetch('./test.php', {
-                method: 'POST',
-                body: postData
-            })
-                .then(res => res.text())
-                .then(data => {
-                    console.log();
-                    //location.href = 'test.php'
-                })
-                .catch(console.error);*/
         }
 
         //問題履歴を表示
@@ -164,9 +159,9 @@ fetch('js/questions.json')
             const ul = document.createElement('ul');
             ul.classList.add('history__list')
             for (let i = 0; i < 10; i++){
-                const endQuestion = endArr[i].message;
-                const me = Number(myAnswer[i]);
-                const you = Number(endArr[i].answer);
+                const endQuestion = endAnswer[i].message;
+                const me = Number(yourAnswer[i]);
+                const you = Number(endAnswer[i].answer);
                 let text, style;
                 if (me === you) {
                     text = '○';
@@ -175,10 +170,10 @@ fetch('js/questions.json')
                     text = '×';
                     style = 'red';
                 }
-                const correctAnswer = endArr[i].choise[you];
-                const meAnswer = endArr[i].choise[me];
+                const correctAnswer = endAnswer[i].choise[you];
+                const meAnswer = endAnswer[i].choise[me];
 
-                const li = document.createElement('li'); //liはブロックスコープによりfor文の外側から参照できない。
+                const li = document.createElement('li');
                 li.classList.add('history__list-item');
                 const pQuestion = document.createElement('p');
                 pQuestion.classList.add('history__question');
