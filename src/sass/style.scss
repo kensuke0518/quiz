@@ -30,8 +30,12 @@
     border: 1px soild #333;
     border-radius: 5px;
     font-size: 2rem;
-    margin-right: 10px;
+    margin: 0 10px 5px 0;
     padding: 5px;
+    text-align: left;
+    @include mq(){
+        display: block;
+    }
 }
 #push{
     margin: 10px 0 0;
@@ -41,12 +45,15 @@
 }
 .history{
     &__list-item{
-        background: #ddd;
+        background: #fff;
         font-size: 1.6rem;
         margin: 10px 0 0;
         padding: 10px;
         @include mq(){
             font-size: inherit;
+        }
+        &.bad{
+            border: 5px solid #f00;
         }
     }
     &__question{

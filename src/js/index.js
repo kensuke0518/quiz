@@ -10,6 +10,7 @@
 
             //完了した問題を入れる配列インスタンスを作成
             let endAnswer = new Array();
+            
             //スタートボタンを取得
             const startBtn = document.getElementById('push');
 
@@ -162,6 +163,8 @@
                 const ul = document.createElement('ul');
                 ul.classList.add('history__list')
                 for (let i = 0; i < 10; i++) {
+                    const li = document.createElement('li');
+                    li.classList.add('history__list-item');
                     const endQuestion = endAnswer[i].message;
                     const yours = Number(yourAnswer[i]);
                     const ends = Number(endAnswer[i].answer);
@@ -172,12 +175,11 @@
                     } else {
                         text = '×';
                         style = 'red';
+                        li.classList.add('bad');
                     }
                     const correctAnswer = endAnswer[i].choise[ends];
                     const meAnswer = endAnswer[i].choise[yours];
 
-                    const li = document.createElement('li');
-                    li.classList.add('history__list-item');
                     const pQuestion = document.createElement('p');
                     pQuestion.classList.add('history__question');
                     const pCorrect = document.createElement('p');
