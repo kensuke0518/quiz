@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
     fetch('js/questions.json')
         .then(res => res.json())
@@ -12,12 +14,12 @@
             let endAnswer = new Array();
             
             //スタートボタンを取得
-            const startBtn = document.getElementById('push');
+            const startBtn = document.querySelector('#push');
 
             //ページの初期表示に対して行う対応
             function greeting() {
                 //冒頭の文章を作成。
-                const greet = document.getElementById('greet');
+                const greet = document.querySelector('#greet');
                 //ローカルストレージから前回の解答状況を取得
                 let greetText;
                 if (localStorage.getItem('previousPoints')) {
@@ -37,7 +39,7 @@
                 //スタートボタンを押して処理開始
                 startBtn.addEventListener('click', () => {
                     //#root内の要素を全て削除する
-                    const root = document.getElementById('root')
+                    const root = document.querySelector('#root')
                     while (root.children[0]) {
                         root.removeChild(root.children[0]);
                     }
@@ -53,14 +55,14 @@
 
             //問題文を表示する
             function dispQuestion() {
-                const root = document.getElementById('root');
+                const root = document.querySelector('#root');
                 const div = document.createElement('div');
                 div.setAttribute('id', 'question');
                 const p = document.createElement('p');
                 p.classList.add('q-text')
 
                 //画面表示の初期化：表示されている問題があれば削除する
-                if (root.querySelector('#question') != null) {
+                if (root.querySelector('#question') !== null) {
                     root.removeChild(root.querySelector('#question'));
                 }
 
@@ -105,10 +107,10 @@
 
             //解答ボタンを押した際の処理
             function decision() {
-                const qButton = document.getElementById('root').querySelectorAll('.qButton');
-                const q = document.getElementById('root').querySelector('#question');
-                for (let i = 0; i < qButton.length; i++) {
-                    qButton[i].addEventListener('click', (e) => {
+                const qButton = document.querySelector('#root').querySelectorAll('.qButton');
+                const q = document.querySelector('#root').querySelector('#question');
+                for (let qb of qButton) {
+                    qb.addEventListener('click', (e) => {
                         const attr = e.target.getAttribute('data-value');
                         yourAnswer.push(attr);
                         q.parentNode.removeChild(q);
@@ -133,7 +135,7 @@
                     }
                 }
                 //得点を表示する
-                const root = document.getElementById('root');
+                const root = document.querySelector('#root');
                 const div = document.createElement('div');
                 div.setAttribute('id', 'points');
                 const p = document.createElement('p');
@@ -159,7 +161,7 @@
 
             //問題履歴を表示
             function history() {
-                const points = document.getElementById('points');
+                const points = document.querySelector('#points');
                 const ul = document.createElement('ul');
                 ul.classList.add('history__list')
                 for (let i = 0; i < 10; i++) {
